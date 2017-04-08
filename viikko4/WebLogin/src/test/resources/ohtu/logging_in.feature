@@ -12,5 +12,5 @@ Then user is not logged in and error message is given
 
  Scenario: nonexistent user can not login to
  Given login is selected
- When  incorrect username "dsaggsd" and any password "adfopgkas" are given
+ When  incorrect username "dsaggsd" and any random password "adfopgkas" is given
  Then  user is not logged in and error message is given 
