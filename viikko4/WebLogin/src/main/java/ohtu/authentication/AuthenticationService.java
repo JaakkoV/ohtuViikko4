@@ -25,19 +25,36 @@ public class AuthenticationService {
 
     public CreationStatus createUser(String username, String password, String passwordConfirmation) {
         CreationStatus status = new CreationStatus();
-        
+        String validPassword = "((?=.*[0-9])|(?=.*[!@#$%^&+=]))(?=.*[a-z]).{8,}";
+
+        if (!password.equals(passwordConfirmation)) {
+            status.addError("password and password confirmation do not match");
+        }
+
+        if (password.length() < 8) {
+            status.addError("password should have at least 8 characters");
+        }
+
+        if (!password.matches(validPassword)) {
+            status.addError("password can not contain only letters");
+        }
+
         if (userDao.findByName(username) != null) {
             status.addError("username is already taken");
         }
 
-        if (username.length()<3 ) {
+        if (username.length() < 3) {
             status.addError("username should have at least 3 characters");
+        }
+
+        if (!username.matches("(?=.*[a-z]).{3,}")) {
+
         }
 
         if (status.isOk()) {
             userDao.add(new User(username, password));
         }
-        
+
         return status;
     }
 

@@ -27,6 +27,12 @@ public class Stepdefs {
         WebElement element = driver.findElement(By.linkText("login"));
         element.click();
     }
+    @Given("^new user is selected$")
+    public void new_user_selected() throws Throwable {
+        driver.get(baseUrl);
+        WebElement element = driver.findElement(By.linkText("register new user"));
+        element.click();
+    }
 
     @When("^username \"([^\"]*)\" and password \"([^\"]*)\" are given$")
     public void username_and_password_are_given(String username, String password) throws Throwable {
@@ -52,11 +58,45 @@ public class Stepdefs {
     public void username_and_incorrect_password_are_given(String username, String password) throws Throwable {
         logInWith(username, password);
     }
+    @When("^correct username \"([^\"]*)\" and password \"([^\"]*)\" are given to create new$")
+    public void username_and_incorrect_password_are_given_to_create_new(String username, String password) throws Throwable {
+        createUserWith(username, password);
+    }
+    @When("^too short username \"([^\"]*)\" and password \"([^\"]*)\" are given to create new$")
+    public void too_short_username_and_incorrect_password_are_given_to_create_new(String username, String password) throws Throwable {
+        createUserWith(username, password);
+    }
+    @When("^correct username \"([^\"]*)\" and short password \"([^\"]*)\" are given to create new$")
+    public void username_and_short_password_are_given_to_create_new(String username, String password) throws Throwable {
+        createUserWith(username, password);
+    }
+    @When("^correct username \"([^\"]*)\" and mismatching passwords \"([^\"]*)\" are given to create new$")
+    public void username_and_mis_password_are_given_to_create_new(String username, String password) throws Throwable {
+        createUserWithFalse(username, password);
+    }
+    @When("^correct username \"([^\"]*)\" and false password \"([^\"]*)\" are given to create new$")
+    public void username_and_false_password_are_given_to_create_new(String username, String password) throws Throwable {
+        createUserWith(username, password);
+    }
+    @When("^taken username \"([^\"]*)\" and password \"([^\"]*)\" are given to create new$")
+    public void taken_uname_and_password_are_given_to_create_new(String username, String password) throws Throwable {
+        createUserWith(username, password);
+        Thread.sleep(100000);
+    }
 
     @Then("^user is logged in$")
     public void user_is_logged_in() throws Throwable {
         pageHasContent("Ohtu Application main page");
     }
+    @Then("^user gets welcome page$")
+    public void user_gets_welcome() throws Throwable {
+        pageHasContent("Welcome to Ohtu Application!");
+    }
+    @Then("^user is not created and error \"([^\"]*)\" is reported$")
+    public void user_gets_error(String error) throws Throwable {
+        pageHasContent(error);
+    }
+    
 
     @Then("^user is not logged in and error message is given$")
     public void user_is_not_logged_in_and_error_message_is_given() throws Throwable {
@@ -86,6 +126,29 @@ public class Stepdefs {
         element = driver.findElement(By.name("password"));
         element.sendKeys(password);
         element = driver.findElement(By.name("login"));
+        element.submit();
+    }
+    private void createUserWith(String username, String password) {
+        assertTrue(driver.getPageSource().contains("Create username and give password"));
+        WebElement element = driver.findElement(By.name("username"));
+        element.sendKeys(username);
+        element = driver.findElement(By.name("password"));
+        element.sendKeys(password);
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys(password);
+        element = driver.findElement(By.name("signup"));
+        element.submit();
+    }
+
+    private void createUserWithFalse(String username, String password) {
+        assertTrue(driver.getPageSource().contains("Create username and give password"));
+        WebElement element = driver.findElement(By.name("username"));
+        element.sendKeys(username);
+        element = driver.findElement(By.name("password"));
+        element.sendKeys(password);
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys("fkdasogk");
+        element = driver.findElement(By.name("signup"));
         element.submit();
     }
 }
