@@ -7,7 +7,6 @@ import cucumber.api.java.en.When;
 import java.io.File;
 import static org.junit.Assert.*;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -16,7 +15,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class Stepdefs {
 
-    File pathBinary = new File("polku/jonne/purit/firefoxin/firefox.exe");
+    File pathBinary = new File("/home/jaakvirt/Downloads/firefox/firefox");
     FirefoxBinary firefoxBinary = new FirefoxBinary(pathBinary);
     FirefoxProfile firefoxProfile = new FirefoxProfile();
     WebDriver driver = new FirefoxDriver(firefoxBinary, firefoxProfile);
