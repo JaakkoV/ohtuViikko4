@@ -64,6 +64,11 @@ public class Stepdefs {
         pageHasContent("Give your credentials to login");
     }
 
+    @When("^incorrect username \"([^\"]*)\" and any random password \"([^\"]*)\" is given$")
+    public void incorrect_username_and_any_random_password_is_given(String username, String password) throws Throwable {
+        logInWith(username, password);
+    }
+
     @After
     public void tearDown() {
         driver.quit();
